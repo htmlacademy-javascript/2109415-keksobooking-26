@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Ivan Merkulov](https://up.htmlacademy.ru/javascript/26/user/2109415).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Гуляев](https://htmlacademy.ru/profile/dima)
 
 ---
 
