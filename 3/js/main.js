@@ -1,3 +1,13 @@
+const PRICE_MIN = 20;
+const PRICE_MAX = 100;
+const ROOMS_MIN = 1;
+const ROOMS_MAX = 7;
+const GUESTS_MIN = 1;
+const GUESTS_MAX = 15;
+const LAT_MIN = 35.65;
+const LAT_MAX = 35.70;
+const LNG_MIN = 139.7;
+const LNG_MAX = 139.8;
 const APPARTAMENTS_TYPES = [
   'palace',
   'flat',
@@ -31,7 +41,6 @@ const PHOTOS_TYPES = [
 
 function getRandomNumber(min, max, precision = 0) {
   if (min >= max) {
-    //console.log('wrong range!');
     return;
   }
   return (
@@ -40,31 +49,31 @@ function getRandomNumber(min, max, precision = 0) {
   );
 }
 
-function getRandomArrayArray(input) {
-  const arr = input.slice();
-  const result = [];
-  let lengthResult = getRandomNumber(0, arr.length-1);
+function getRandomArrayArray(data) {
+  const copiedData = data.slice();
+  const randomArrayElements = [];
+  let lengthResult = getRandomNumber(0, copiedData.length-1);
   while (lengthResult--) {
-    result.push(arr.splice(getRandomNumber(0, arr.length-1),1));
+    randomArrayElements.push(copiedData.splice(getRandomNumber(0, copiedData.length-1),1));
   }
-  return result;
+  return randomArrayElements;
 }
-function getRandomArrayElement(arr) {
-  return  arr[getRandomNumber(0, arr.length-1)];
+function getRandomArrayElement(data) {
+  return  data[getRandomNumber(0, data.length-1)];
 }
 
 function createObject(number) {
-  let obj = {
+  const obj = {
     author: {
-      avatar: `img/avatars/user${number !== 10 ? `0` :''}${number}.png`,
+      avatar: `img/avatars/user${number !== 10 ? '0' :''}${number}.png`,
     },
     offer: {
       title: `someTitle${number}`,
       adress: '{{location.lat}}, {{location.lng}}',
-      price: getRandomNumber (20, 100),
+      price: getRandomNumber (PRICE_MIN, PRICE_MAX),
       type: getRandomArrayElement (APPARTAMENTS_TYPES),
-      rooms: getRandomNumber(1, 7),
-      guests: getRandomNumber(1,15),
+      rooms: getRandomNumber(ROOMS_MIN, ROOMS_MAX),
+      guests: getRandomNumber(GUESTS_MIN,GUESTS_MAX),
       checkin: getRandomArrayElement(CHECKINS_TYPES),
       checkout: getRandomArrayElement(CHECKOUTS_TYPES),
       features: getRandomArrayArray(FEATURES_TYPES),
@@ -72,19 +81,19 @@ function createObject(number) {
       photos: getRandomArrayArray(PHOTOS_TYPES),
     },
     location: {
-      lat: getRandomNumber (35.65, 35.7, 5),
-      lng: getRandomNumber (139.7, 139.8, 5)
+      lat: getRandomNumber (LAT_MIN, LAT_MAX, 5),
+      lng: getRandomNumber (LNG_MIN, LNG_MAX, 5)
     }
   };
   return obj;
 }
 
 function createArrayOfObjects(value) {
-  const arr = [];
+  const newArrayOfObjects = [];
   while (value) {
-    arr.push(createObject(value--));
+    newArrayOfObjects.push(createObject(value--));
   }
-  return arr;
+  return newArrayOfObjects;
 }
 
 createArrayOfObjects(10);
