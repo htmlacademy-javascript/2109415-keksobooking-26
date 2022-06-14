@@ -51,12 +51,12 @@ function getRandomNumber(min, max, precision = 0) {
 
 function getRandomArrayArray(data) {
   const copiedData = data.slice();
-  const randomArrayFromArray = [];
+  const randomArrayElements = [];
   let lengthResult = getRandomNumber(0, copiedData.length-1);
   while (lengthResult--) {
-    randomArrayFromArray.push(copiedData.splice(getRandomNumber(0, copiedData.length-1),1));
+    randomArrayElements.push(copiedData.splice(getRandomNumber(0, copiedData.length-1),1));
   }
-  return randomArrayFromArray;
+  return randomArrayElements;
 }
 function getRandomArrayElement(data) {
   return  data[getRandomNumber(0, data.length-1)];
