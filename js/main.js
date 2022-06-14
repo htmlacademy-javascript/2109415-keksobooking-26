@@ -41,7 +41,6 @@ const PHOTOS_TYPES = [
 
 function getRandomNumber(min, max, precision = 0) {
   if (min >= max) {
-    //console.log('wrong range!');
     return;
   }
   return (
@@ -51,13 +50,13 @@ function getRandomNumber(min, max, precision = 0) {
 }
 
 function getRandomArrayArray(data) {
-  const serviceArr = data.slice();
-  const result = [];
-  let lengthResult = getRandomNumber(0, serviceArr.length-1);
+  const copiedData = data.slice();
+  const randomArrayFromArray = [];
+  let lengthResult = getRandomNumber(0, copiedData.length-1);
   while (lengthResult--) {
-    result.push(serviceArr.splice(getRandomNumber(0, serviceArr.length-1),1));
+    randomArrayFromArray.push(copiedData.splice(getRandomNumber(0, copiedData.length-1),1));
   }
-  return result;
+  return randomArrayFromArray;
 }
 function getRandomArrayElement(data) {
   return  data[getRandomNumber(0, data.length-1)];
@@ -90,11 +89,11 @@ function createObject(number) {
 }
 
 function createArrayOfObjects(value) {
-  const newArr = [];
+  const newArrayOfObjects = [];
   while (value) {
-    newArr.push(createObject(value--));
+    newArrayOfObjects.push(createObject(value--));
   }
-  return newArr;
+  return newArrayOfObjects;
 }
 
 createArrayOfObjects(10);
