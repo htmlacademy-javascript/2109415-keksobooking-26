@@ -1,6 +1,6 @@
 import { createArrayOfObjects } from './data.js';
 
-const map = document.querySelector('.map__canvas');
+const mapElement = document.querySelector('.map__canvas');
 
 const houseTypes = [];
 for (const element of document.querySelector('#housing-type').childNodes) {
@@ -8,36 +8,35 @@ for (const element of document.querySelector('#housing-type').childNodes) {
     houseTypes.push({ value: element.value, label: element.label });
   }
 }
-const offerWizard = document
+const offerForm = document
   .querySelector('#card')
   .content.querySelector('.popup');
-const similarWizards = createArrayOfObjects(2);
-// console.log(similarWizards);
+const similarOffers = createArrayOfObjects(2);
 
-similarWizards.forEach((item) => {
-  const wizardElement = offerWizard.cloneNode(true);
-  wizardElement.querySelector('.popup__title').textContent = item.offer.title;
-  wizardElement.querySelector(
+similarOffers.forEach((item) => {
+  const offerElement = offerForm.cloneNode(true);
+  offerElement.querySelector('.popup__title').textContent = item.offer.title;
+  offerElement.querySelector(
     '.popup__text--address'
   ).textContent = `${item.location.lat}; ${item.location.lng};`;
-  wizardElement.querySelector(
+  offerElement.querySelector(
     '.popup__text--price'
   ).textContent = `${item.offer.price} ₽/ночь`;
-  wizardElement.querySelector('.popup__type').textContent = houseTypes.find(
+  offerElement.querySelector('.popup__type').textContent = houseTypes.find(
     (element) => {
       if (element.value === item.offer.type) {
         return element;
       }
     }
   ).label;
-  wizardElement.querySelector(
+  offerElement.querySelector(
     '.popup__text--capacity'
   ).textContent = `${item.offer.rooms} комнат(a)(ы) для ${item.offer.guests} гостя(ей)`;
-  wizardElement.querySelector(
+  offerElement.querySelector(
     '.popup__text--time'
   ).textContent = `Заезд после ${item.offer.checkin}, выезд до ${item.offer.checkout}`;
 
-  const featureTypeList = wizardElement.querySelector('.popup__features');
+  const featureTypeList = offerElement.querySelector('.popup__features');
   while (featureTypeList.firstChild) {
     featureTypeList.removeChild(featureTypeList.firstChild);
   }
@@ -46,12 +45,12 @@ similarWizards.forEach((item) => {
   });
 
   if (!item.offer.description) {
-    wizardElement.querySelector('.popup__description').classList.add('hidden');
+    offerElement.querySelector('.popup__description').classList.add('hidden');
   } else {
-    wizardElement.querySelector('.popup__description').textContent =
+    offerElement.querySelector('.popup__description').textContent =
       item.offer.description;
   }
-  wizardElement.removeChild(wizardElement.lastChild);
+  offerElement.removeChild(offerElement.lastChild);
   item.offer.photos.forEach((element) => {
     const photoItem = document.createElement('div');
     photoItem.innerHTML = `
@@ -64,12 +63,12 @@ similarWizards.forEach((item) => {
       alt="Фотография жилья"
     />
     </div>`;
-    wizardElement.appendChild(photoItem);
+    offerElement.appendChild(photoItem);
   });
 
-  wizardElement.querySelector('.popup__avatar').src = item.author.avatar;
+  offerElement.querySelector('.popup__avatar').src = item.author.avatar;
 
   // console.log(houseTypes.find((element) => {if(element.value === item.offer.type) {return element.label;}}));
 
-  map.appendChild(wizardElement);
+  mapElement.appendChild(offerElement);
 });
