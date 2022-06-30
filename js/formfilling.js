@@ -1,11 +1,5 @@
 const formElement = document.querySelector('.ad-form');
-formElement.setAttribute(
-  'action',
-  'https://26.javascript.pages.academy/keksobooking'
-);
-
 const titleField = formElement.querySelector('#title');
-const priceField = formElement.querySelector('#price');
 
 const pristine = new Pristine(
   formElement,
@@ -17,7 +11,7 @@ const pristine = new Pristine(
     errorTextTag: 'span',
     errorTextClass: 'ad-form__error-text',
   },
-  false
+  true
 );
 
 function validateTitle(value) {
@@ -30,8 +24,10 @@ titleField.addEventListener('keydown', () => {
   pristine.validate();
 });
 
+const priceField = formElement.querySelector('#price');
+
 function validatePrice(value) {
-  return length.value && isFinite(value);
+  return isFinite(+value);
 }
 
 pristine.addValidator(priceField, validatePrice);
@@ -69,5 +65,7 @@ pristine.addValidator(quantityGuestField, validateRoomGuest, getRoomGuestErrorMe
 
 formElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if (pristine.validate()){
+    formElement.submit();
+  }
 });
