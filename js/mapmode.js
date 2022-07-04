@@ -11,7 +11,7 @@ mapFilterElement.classList.add('map__filters--disable');
 for (const child of mapFilterElement.children){
   child.setAttribute('disabled', '');
 }
-const mapElement = document.querySelector('.map__canvas');
+// const mapElement = document.querySelector('.map__canvas');
 // mapElement.addEventListener('load', () => {
 formElement.classList.remove('ad-form--disable');
 
