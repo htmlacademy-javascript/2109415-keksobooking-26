@@ -1,7 +1,7 @@
 {
   "name": "keksobooking",
   "version": "26.0.0",
-  "type":"module",
+  "type": "module",
   "description": "Личный проект «Кексобукинг» от HTML Academy",
   "repository": {
     "type": "git",
@@ -23,5 +23,8 @@
   "engines": {
     "node": "16.x",
     "npm": "8.x"
+  },
+  "dependencies": {
+    "nouislider": "^15.6.0"
   }
 }
