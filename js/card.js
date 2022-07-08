@@ -1,19 +1,13 @@
-import { createArrayOfObjects } from './data.js';
-
-const mapElement = document.querySelector('.map__canvas');
-
-const houseTypes = [];
-for (const element of document.querySelector('#housing-type').childNodes) {
-  if (element.outerText) {
-    houseTypes.push({ value: element.value, label: element.label });
+function createCardElement(item) {
+  const houseTypes = [];
+  for (const element of document.querySelector('#housing-type').childNodes) {
+    if (element.outerText) {
+      houseTypes.push({ value: element.value, label: element.label });
+    }
   }
-}
-const offerForm = document
-  .querySelector('#card')
-  .content.querySelector('.popup');
-const similarOffers = createArrayOfObjects(2);
-
-similarOffers.forEach((item) => {
+  const offerForm = document
+    .querySelector('#card')
+    .content.querySelector('.popup');
   const offerElement = offerForm.cloneNode(true);
   offerElement.querySelector('.popup__title').textContent = item.offer.title;
   offerElement.querySelector(
@@ -21,7 +15,11 @@ similarOffers.forEach((item) => {
   ).textContent = `${item.location.lat}; ${item.location.lng};`;
   offerElement.querySelector(
     '.popup__text--price'
-  ).textContent = `${item.offer.price} ₽/ночь`;
+  ).textContent = item.offer.price;
+  const spanElement = document.createElement('span');
+  spanElement.append(' ₽/ночь');
+  offerElement.querySelector(
+    '.popup__text--price').append(spanElement);
   offerElement.querySelector('.popup__type').textContent = houseTypes.find(
     (element) => {
       if (element.value === item.offer.type) {
@@ -40,8 +38,11 @@ similarOffers.forEach((item) => {
   while (featureTypeList.firstChild) {
     featureTypeList.removeChild(featureTypeList.firstChild);
   }
-  item.offer.features.forEach((element) => {
-    featureTypeList.innerHTML += `<li class="popup__feature popup__feature--${element}"></li>`;
+  item.offer.features.forEach((unit) => {
+    const element = document.createElement('li');
+    element.classList.add('popup__feature');
+    element.classList.add(`popup__feature--${unit}`);
+    featureTypeList.append(element);
   });
 
   if (!item.offer.description) {
@@ -50,7 +51,7 @@ similarOffers.forEach((item) => {
     offerElement.querySelector('.popup__description').textContent =
       item.offer.description;
   }
-  offerElement.removeChild(offerElement.lastChild);
+  offerElement.querySelector('.popup__photos').remove();
   item.offer.photos.forEach((element) => {
     const photoItem = document.createElement('div');
     photoItem.innerHTML = `
@@ -67,8 +68,6 @@ similarOffers.forEach((item) => {
   });
 
   offerElement.querySelector('.popup__avatar').src = item.author.avatar;
-
-  // console.log(houseTypes.find((element) => {if(element.value === item.offer.type) {return element.label;}}));
-
-  mapElement.appendChild(offerElement);
-});
+  return offerElement;
+}
+export{createCardElement};
