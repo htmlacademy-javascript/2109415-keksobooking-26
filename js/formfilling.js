@@ -25,7 +25,7 @@ titleField.addEventListener('keydown', () => {
 });
 
 const priceField = formElement.querySelector('#price');
-
+const sliderElement = document.querySelector('.ad-form__slider');
 function validatePrice(value) {
   return isFinite(+value);
 }
@@ -33,7 +33,21 @@ function validatePrice(value) {
 pristine.addValidator(priceField, validatePrice);
 
 priceField.addEventListener('keyup', () => {
+  sliderElement.noUiSlider.set(priceField.value);
   pristine.validate();
+});
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: +priceField.max,
+  },
+  start: +priceField.max/2,
+  step: 10,
+  connect: 'lower',
+});
+sliderElement.noUiSlider.on('update', () => {
+  priceField.value = sliderElement.noUiSlider.get();
 });
 
 const quantityRoomField = formElement.querySelector('#room_number');

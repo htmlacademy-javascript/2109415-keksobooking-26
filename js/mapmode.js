@@ -1,7 +1,7 @@
 const formElement = document.querySelector('.ad-form');
 const mapFilterElement = document.querySelector('.map__filters');
 
-function turnOnDiableMode() {
+function turnOnDisableMode() {
   formElement.classList.add('ad-form--disable');
 
   for (const child of formElement.children) {
@@ -31,5 +31,4 @@ function tournOffDisableMode() {
   // });
 }
 
-export{turnOnDiableMode};
-export{tournOffDisableMode};
+export{turnOnDisableMode, tournOffDisableMode};
