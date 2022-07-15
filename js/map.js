@@ -1,6 +1,5 @@
 import { turnOnDisableMode } from './mapmode.js';
 import { tournOffDisableMode } from './mapmode.js';
-import { createArrayOfObjects } from './data.js';
 import {createCardElement} from './card.js';
 turnOnDisableMode();
 const map = L.map('map-canvas').on('load', tournOffDisableMode);
@@ -41,6 +40,7 @@ function initMap (coordinate) {
 function createAdPinMarkers (offers) {
   offers.forEach((offer) => {
     const marker = L.marker({
+
       lat: offer.location.lat,
       lng: offer.location.lng,
     },
@@ -48,7 +48,7 @@ function createAdPinMarkers (offers) {
       icon: adPinIcon,
     }
     );
-    marker.addTo(markerGroup).bindPopup(createCardElement(createArrayOfObjects(1)[0]));
+    marker.addTo(markerGroup).bindPopup(createCardElement(offer));
   });
 }
 function setOnMap (cb) {
