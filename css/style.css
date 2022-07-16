@@ -88,7 +88,12 @@ fieldset {
   height: 500px;
   background-color: #dddddd;
 }
-
+.map__alarm {
+  width: 100%;
+  text-align: center;
+  z-index: 500;
+  background-color: red;
+}
 
 /**
  * Фильтры объявления
