@@ -1,4 +1,4 @@
-import {confirmForm} from './formfilling.js';
+import {confirmForm, setOnResetClick} from './formfilling.js';
 import './mapmode.js';
 import './map.js';
 import { initMap, createAdPinMarkers, START_COORDINATE } from './map.js';
@@ -9,3 +9,5 @@ getData(createAdPinMarkers, alertMapOn);
 confirmForm(async(data) => {
   await sendData(showSuccessSendindToServer, alertSendindToServerOn, data);
 });
+
+setOnResetClick();
