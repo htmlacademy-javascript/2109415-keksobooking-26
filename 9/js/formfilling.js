@@ -3,7 +3,7 @@ import { clearForm } from './util.js';
 const formElement = document.querySelector('.ad-form');
 const titleField = formElement.querySelector('#title');
 const submitButton = formElement.querySelector('.ad-form__submit');
-const resetButton = formElement.querySelector('ad-form__reset');
+const resetButton = formElement.querySelector('.ad-form__reset');
 
 const pristine = new Pristine(
   formElement,
@@ -100,9 +100,12 @@ function confirmForm(cb) {
     }
   });
 }
-resetButton.addEventListener('reset', (evt) => {
-  evt.preventDefault();
-  clearForm();
-});
 
-export {confirmForm};
+function setOnResetClick(cb) {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    clearForm();
+    if(cb){cb();}
+  });
+}
+export { confirmForm, setOnResetClick };
