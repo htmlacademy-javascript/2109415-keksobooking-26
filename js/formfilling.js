@@ -1,5 +1,9 @@
+import { clearForm } from './util.js';
+
 const formElement = document.querySelector('.ad-form');
 const titleField = formElement.querySelector('#title');
+const submitButton = formElement.querySelector('.ad-form__submit');
+const resetButton = formElement.querySelector('.ad-form__reset');
 
 const pristine = new Pristine(
   formElement,
@@ -42,7 +46,7 @@ noUiSlider.create(sliderElement, {
     min: 0,
     max: +priceField.max,
   },
-  start: +priceField.max/2,
+  start: +priceField.max / 2,
   step: 10,
   connect: 'lower',
 });
@@ -53,22 +57,22 @@ sliderElement.noUiSlider.on('update', () => {
 const quantityRoomField = formElement.querySelector('#room_number');
 const quantityGuestField = formElement.querySelector('#capacity');
 const roomGuestOption = {
-  '1 комната': ['для 1 гостя'],
-  '2 комнаты': ['для 1 гостя', 'для 2 гостей'],
-  '3 комнаты': ['для 1 гостя', 'для 2 гостей', 'для 3 гостей'],
-  '100 комнат': ['не для гостей']
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['any']
 };
 
 function onUnitChange() {
   pristine.validate();
 }
 
-function validateRoomGuest(){
+function validateRoomGuest() {
   return roomGuestOption[quantityRoomField.value].includes(quantityGuestField.value);
 }
 
-function getRoomGuestErrorMessage(){
-  return `Не достаточно комнат ${quantityGuestField.value}`;
+function getRoomGuestErrorMessage() {
+  return 'Недостаточно комнат для указанного количества гостей';
 }
 
 quantityRoomField.addEventListener('change', onUnitChange);
@@ -77,9 +81,31 @@ quantityGuestField.addEventListener('change', onUnitChange);
 pristine.addValidator(quantityRoomField, validateRoomGuest, '');
 pristine.addValidator(quantityGuestField, validateRoomGuest, getRoomGuestErrorMessage);
 
-formElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()){
-    formElement.submit();
-  }
-});
+function blockSubmitButton() {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+}
+
+function unblockSubmitButton() {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+function confirmForm(cb) {
+  formElement.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) {
+      blockSubmitButton();
+      await cb(new FormData(evt.target));
+      unblockSubmitButton();
+    }
+  });
+}
+
+function setOnResetClick(cb) {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    clearForm();
+    if(cb){cb();}
+  });
+}
+export { confirmForm, setOnResetClick };
