@@ -65,7 +65,7 @@ function alertSendindToServerOff() {
 }
 function showSuccessSendindToServer(){
   const successMessageTemplateElement = document.querySelector('#success');
-  const successMessageElement = successMessageTemplateElement.content.querySelector('.success');
+  const successMessageElement = successMessageTemplateElement.content.querySelector('.success').cloneNode(true);
   clearForm();
   document.querySelector('body').append(successMessageElement);
   window.addEventListener('click', closeSuccesSendindToServer);
@@ -79,6 +79,12 @@ function closeSuccesSendindToServer() {
   window.removeEventListener('keydown', closeSuccesSendindToServer);
   successMessageElement.remove();
 }
-
-export {clearForm, alertMapOn, getRandomNumber, getRandomArrayArray, getRandomArrayElement, showSuccessSendindToServer ,alertSendindToServerOn};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutID;
+  return (...rest) => {
+    clearTimeout(timeoutID);
+    timeoutID = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+export {debounce, clearForm, alertMapOn, getRandomNumber, getRandomArrayArray, getRandomArrayElement, showSuccessSendindToServer ,alertSendindToServerOn};
 

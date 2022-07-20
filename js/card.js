@@ -9,7 +9,7 @@ function createCardElement(item) {
     .querySelector('#card')
     .content.querySelector('.popup');
   const offerElement = offerForm.cloneNode(true);
-  offerElement.querySelector('.popup__title').textContent = item.offer.title;
+  offerElement.querySelector('.popup__title').textContent = `${item.offer.title};`;
   offerElement.querySelector(
     '.popup__text--address'
   ).textContent = `${item.location.lat}; ${item.location.lng};`;
@@ -38,23 +38,27 @@ function createCardElement(item) {
   while (featureTypeList.firstChild) {
     featureTypeList.removeChild(featureTypeList.firstChild);
   }
-  item.offer.features.forEach((unit) => {
-    const element = document.createElement('li');
-    element.classList.add('popup__feature');
-    element.classList.add(`popup__feature--${unit}`);
-    featureTypeList.append(element);
-  });
-
+  if (item.offer.features) {
+    item.offer.features.forEach((unit) => {
+      const element = document.createElement('li');
+      element.classList.add('popup__feature');
+      element.classList.add(`popup__feature--${unit}`);
+      featureTypeList.append(element);
+    });
+  }
   if (!item.offer.description) {
     offerElement.querySelector('.popup__description').classList.add('hidden');
   } else {
     offerElement.querySelector('.popup__description').textContent =
       item.offer.description;
   }
-  offerElement.querySelector('.popup__photos').remove();
-  item.offer.photos.forEach((element) => {
-    const photoItem = document.createElement('div');
-    photoItem.innerHTML = `
+
+  if (!item.offer.photos) {
+    offerElement.querySelector('.popup__photos').remove();
+  } else {
+    item.offer.photos.forEach((element) => {
+      const photoItem = document.createElement('div');
+      photoItem.innerHTML = `
     <div class="popup__photos">
     <img
       src="${element}"
@@ -64,10 +68,12 @@ function createCardElement(item) {
       alt="Фотография жилья"
     />
     </div>`;
-    offerElement.appendChild(photoItem);
-  });
-
-  offerElement.querySelector('.popup__avatar').src = item.author.avatar;
+      offerElement.appendChild(photoItem);
+    });
+  }
+  if (item.author.avatar) {
+    offerElement.querySelector('.popup__avatar').src = item.author.avatar;
+  }
   return offerElement;
 }
-export{createCardElement};
+export { createCardElement };

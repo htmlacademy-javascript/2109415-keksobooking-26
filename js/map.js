@@ -1,7 +1,7 @@
 import { turnOnDisableMode } from './mapmode.js';
 import { tournOffDisableMode } from './mapmode.js';
-import { createArrayOfObjects } from './data.js';
 import {createCardElement} from './card.js';
+import { filterOutOffers } from './filters.js';
 const START_COORDINATE = {lat: 35.6895, lng: 139.692,};
 turnOnDisableMode();
 const map = L.map('map-canvas').on('load', tournOffDisableMode);
@@ -13,9 +13,7 @@ const mainPinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: 35.6895, lng: 139.692,
-  },
+  {START_COORDINATE},
   {
     draggable: true,
     icon: mainPinIcon,
@@ -40,6 +38,9 @@ function initMap (coordinate) {
 }
 
 function createAdPinMarkers (offers) {
+  // debugger;
+  markerGroup.clearLayers();
+  offers = filterOutOffers(offers);
   offers.forEach((offer) => {
     const marker = L.marker({
       lat: offer.location.lat,
@@ -49,7 +50,7 @@ function createAdPinMarkers (offers) {
       icon: adPinIcon,
     }
     );
-    marker.addTo(markerGroup).bindPopup(createCardElement(createArrayOfObjects(1)[0]));
+    marker.addTo(markerGroup).bindPopup(createCardElement(offer));
   });
 }
 function setOnMap (cb) {
