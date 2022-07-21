@@ -9,17 +9,7 @@ const filterForm = document.querySelector('.map__filters');
 
 
 function setFiltersOn (){
-  filterForm.querySelector('#housing-type').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);} );
-  filterForm.querySelector('#housing-price').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#housing-rooms').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#housing-guests').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#filter-wifi').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#filter-dishwasher').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#filter-parking').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#filter-washer').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#filter-elevator').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-  filterForm.querySelector('#filter-conditioner').addEventListener('change', () => {debounce(makeFiltering(),FILTERING_DELAY);});
-
+  filterForm.addEventListener('change', () => {debounce(() => makeFiltering(),FILTERING_DELAY)();} );
 }
 
 function makeFiltering(){
