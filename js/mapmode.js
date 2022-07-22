@@ -14,17 +14,11 @@ function turnOnDisableMode() {
 }
 
 function tournOffDisableMode() {
-  // const mapElement = document.querySelector('.map__canvas');
-  // mapElement.addEventListener('load', () => {
-
   formElement.classList.remove('ad-form--disable');
-
   for (const child of formElement.children) {
     child.removeAttribute('disabled');
   }
-
   mapFilterElement.classList.remove('map__filters--disable');
-
   for (const child of mapFilterElement.children) {
     child.removeAttribute('disabled');
   }

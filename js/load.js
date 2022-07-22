@@ -21,7 +21,7 @@ async function sendData(onSuccess, onError, body) {
       body,
     })
     .then((response) => {
-      if (response.ok) { return onSuccess(); }
+      if (response.ok) {  return onSuccess(); }
       throw new Error('Не удалось отправить форму.Попробуйте ещё раз');
     })
     .catch((err) => {

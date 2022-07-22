@@ -1,4 +1,12 @@
-import { clearForm } from './util.js';
+import { clearFilters, clearForm, clearMap } from './util.js';
+import {setOnMainPinMove} from './map.js';
+const MIN_PRICE = {
+  'bungalow' : '0',
+  'flat': '1000',
+  'hotel': '3000',
+  'house': '5000',
+  'palace': '10000',
+};
 
 const formElement = document.querySelector('.ad-form');
 const titleField = formElement.querySelector('#title');
@@ -18,6 +26,8 @@ const pristine = new Pristine(
   true
 );
 
+setOnMainPinMove(document.querySelector('.ad-form').querySelector('#address').value);
+
 function validateTitle(value) {
   return value.length >= 30 && value.length <= 100;
 }
@@ -28,13 +38,20 @@ titleField.addEventListener('keydown', () => {
   pristine.validate();
 });
 
+const typeField = formElement.querySelector('#type');
 const priceField = formElement.querySelector('#price');
+priceField.setAttribute('min', MIN_PRICE[typeField.value]);
+
 const sliderElement = document.querySelector('.ad-form__slider');
 function validatePrice(value) {
-  return isFinite(+value);
+  return isFinite(+value) && +value > priceField.min;
 }
 
-pristine.addValidator(priceField, validatePrice);
+function getPriceErrorMessage(){
+  return `Не менее  ${priceField.min} рублей за ночь`;
+}
+
+pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
 
 priceField.addEventListener('keyup', () => {
   sliderElement.noUiSlider.set(priceField.value);
@@ -52,6 +69,12 @@ noUiSlider.create(sliderElement, {
 });
 sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
+  pristine.validate();
+});
+
+typeField.addEventListener('change', () => {
+  priceField.setAttribute('min', MIN_PRICE[typeField.value]);
+  pristine.validate();
 });
 
 const quantityRoomField = formElement.querySelector('#room_number');
@@ -81,6 +104,12 @@ quantityGuestField.addEventListener('change', onUnitChange);
 pristine.addValidator(quantityRoomField, validateRoomGuest, '');
 pristine.addValidator(quantityGuestField, validateRoomGuest, getRoomGuestErrorMessage);
 
+const timeinElement = formElement.querySelector('#timein');
+const timeoutElement = formElement.querySelector('#timeout');
+timeinElement.addEventListener('change', () => {timeoutElement.value = timeinElement.value;});
+timeoutElement.addEventListener('change', () => {timeinElement.value = timeoutElement.value;});
+
+
 function blockSubmitButton() {
   submitButton.disabled = true;
   submitButton.textContent = 'Сохраняю...';
@@ -92,10 +121,13 @@ function unblockSubmitButton() {
 }
 function confirmForm(cb) {
   formElement.addEventListener('submit', async (evt) => {
+    // debugger;
     evt.preventDefault();
     if (pristine.validate()) {
       blockSubmitButton();
+      // debugger;
       await cb(new FormData(evt.target));
+      // debugger;
       unblockSubmitButton();
     }
   });
@@ -105,6 +137,8 @@ function setOnResetClick(cb) {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     clearForm();
+    clearFilters();
+    clearMap();
     if(cb){cb();}
   });
 }

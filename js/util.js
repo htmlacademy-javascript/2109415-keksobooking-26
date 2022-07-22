@@ -1,3 +1,5 @@
+import { putMainPinToStart } from './map.js';
+
 const ALERT_SHOW_TIME = 3000;
 function getRandomNumber(min, max, precision = 0) {
   if (min >= max) {
@@ -37,7 +39,7 @@ function clearForm() {
   formElement.querySelector('#title').value = '';
   formElement.querySelector('#address').value = '';
   formElement.querySelector('#type').value = 'flat';
-  formElement.querySelector('#price').value = '500000.00';
+  formElement.querySelector('#price').value = '50000.00';
   formElement.querySelector('#timein').value = '12:00';
   formElement.querySelector('#timeout').value = '12:00';
   formElement.querySelector('#room_number').value = '1';
@@ -46,12 +48,34 @@ function clearForm() {
     child.checked = false;
   }
   formElement.querySelector('#description').value = '';
-  formElement.querySelector('.ad-form__photo--pic').remove();
+  if(formElement.querySelector('.ad-form__photo--pic')){
+    formElement.querySelector('.ad-form__photo--pic').remove();}
+}
+
+function clearFilters(){
+  const filterForm = document.querySelector('.map__filters');
+  filterForm.querySelector('#housing-type').value = 'any';
+  filterForm.querySelector('#housing-price').value = 'any';
+  filterForm.querySelector('#housing-rooms').value = 'any';
+  filterForm.querySelector('#housing-guests').value = 'any';
+  filterForm.querySelector('#filter-wifi').checked = false;
+  filterForm.querySelector('#filter-dishwasher').checked = false;
+  filterForm.querySelector('#filter-parking').checked = false;
+  filterForm.querySelector('#filter-washer').checked = false;
+  filterForm.querySelector('#filter-elevator').checked = false;
+  filterForm.querySelector('#filter-conditioner').checked = false;
+}
+
+function clearMap(){
+  if(document.querySelector('.leaflet-popup-content')){
+    document.querySelector('.leaflet-popup-content').remove();
+  }
+  putMainPinToStart();
 }
 
 function alertSendindToServerOn() {
   const errorMessageTemplateElement = document.querySelector('#error');
-  const errorMessageElement = errorMessageTemplateElement.content.querySelector('.error');
+  const errorMessageElement = errorMessageTemplateElement.content.querySelector('.error').cloneNode(true);
   document.querySelector('body').append(errorMessageElement);
   window.addEventListener('click', alertSendindToServerOff);
   window.addEventListener('keydown', (event) => {
@@ -65,6 +89,7 @@ function alertSendindToServerOff() {
   errorMessageElement.remove();
 }
 function showSuccessSendindToServer(){
+  // debugger;
   const successMessageTemplateElement = document.querySelector('#success');
   const successMessageElement = successMessageTemplateElement.content.querySelector('.success').cloneNode(true);
   clearForm();
@@ -87,5 +112,5 @@ function debounce (callback, timeoutDelay = 500) {
     timeoutID = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 }
-export {debounce, clearForm, alertMapOn, getRandomNumber, getRandomArrayArray, getRandomArrayElement, showSuccessSendindToServer ,alertSendindToServerOn};
+export {debounce, clearForm, alertMapOn, getRandomNumber, getRandomArrayArray, getRandomArrayElement, showSuccessSendindToServer ,alertSendindToServerOn, clearFilters, clearMap};
 

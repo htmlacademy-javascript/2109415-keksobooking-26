@@ -1,12 +1,14 @@
 import {confirmForm, setOnResetClick} from './formfilling.js';
-import './mapmode.js';
+import {turnOnDisableMode} from './mapmode.js';
 import './avatar.js';
 import './filters.js';
-import './map.js';
-import { initMap, createAdPinMarkers, START_COORDINATE } from './map.js';
+import  './map.js';
+import { initMap, createAdPinMarkers, START_COORDINATE, setOnMainPinMove} from './map.js';
 import { getData, sendData } from './load.js';
 import { alertMapOn, alertSendindToServerOn, showSuccessSendindToServer } from './util.js';
 import { setFiltersOn } from './filters.js';
+
+turnOnDisableMode();
 initMap(START_COORDINATE);
 getData(createAdPinMarkers, alertMapOn);
 confirmForm(async(data) => {
@@ -14,3 +16,4 @@ confirmForm(async(data) => {
 });
 setFiltersOn();
 setOnResetClick();
+setOnMainPinMove();
