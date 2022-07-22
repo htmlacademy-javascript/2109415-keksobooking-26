@@ -46,6 +46,7 @@ function clearForm() {
     child.checked = false;
   }
   formElement.querySelector('#description').value = '';
+  formElement.querySelector('.ad-form__photo--pic').remove();
 }
 
 function alertSendindToServerOn() {

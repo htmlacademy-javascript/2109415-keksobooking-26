@@ -1,5 +1,6 @@
 import {confirmForm, setOnResetClick} from './formfilling.js';
 import './mapmode.js';
+import './avatar.js';
 import './filters.js';
 import './map.js';
 import { initMap, createAdPinMarkers, START_COORDINATE } from './map.js';
