@@ -45,7 +45,9 @@ function createCardElement(item) {
       element.classList.add(`popup__feature--${unit}`);
       featureTypeList.append(element);
     });
-  } else {featureTypeList.remove();}
+  } else {
+    featureTypeList.remove();
+  }
   if (!item.offer.description) {
     offerElement.querySelector('.popup__description').classList.add('hidden');
   } else {
