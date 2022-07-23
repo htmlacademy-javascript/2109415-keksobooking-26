@@ -44,7 +44,7 @@ priceField.setAttribute('min', MIN_PRICE[typeField.value]);
 
 const sliderElement = document.querySelector('.ad-form__slider');
 function validatePrice(value) {
-  return isFinite(+value) && +value > priceField.min;
+  return isFinite(parseInt(value, 10)) && parseInt(value, 10) > priceField.min;
 }
 
 function getPriceErrorMessage(){
