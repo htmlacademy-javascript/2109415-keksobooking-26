@@ -1,28 +1,7 @@
 import { putMainPinToStart } from './map.js';
 
 const ALERT_SHOW_TIME = 3000;
-function getRandomNumber(min, max, precision = 0) {
-  if (min >= max) {
-    return;
-  }
-  return (
-    Math.trunc((Math.random() * (max - min) + min) * 10 ** precision) /
-    10 ** precision
-  );
-}
 
-function getRandomArrayArray(data) {
-  const copiedData = data.slice();
-  const randomArrayElements = [];
-  let lengthResult = getRandomNumber(0, copiedData.length-1);
-  while (lengthResult--) {
-    randomArrayElements.push(copiedData.splice(getRandomNumber(0, copiedData.length-1),1));
-  }
-  return randomArrayElements;
-}
-function getRandomArrayElement(data) {
-  return  data[getRandomNumber(0, data.length-1)];
-}
 function alertMapOn(message) {
   const mapElement = document.querySelector('.map');
   const alarmElement = document.createElement('div');
@@ -89,7 +68,6 @@ function alertSendindToServerOff() {
   errorMessageElement.remove();
 }
 function showSuccessSendindToServer(){
-  // debugger;
   const successMessageTemplateElement = document.querySelector('#success');
   const successMessageElement = successMessageTemplateElement.content.querySelector('.success').cloneNode(true);
   clearForm();
@@ -112,5 +90,5 @@ function debounce (callback, timeoutDelay = 500) {
     timeoutID = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 }
-export {debounce, clearForm, alertMapOn, getRandomNumber, getRandomArrayArray, getRandomArrayElement, showSuccessSendindToServer ,alertSendindToServerOn, clearFilters, clearMap};
+export {debounce, clearForm, alertMapOn,   showSuccessSendindToServer ,alertSendindToServerOn, clearFilters, clearMap};
 

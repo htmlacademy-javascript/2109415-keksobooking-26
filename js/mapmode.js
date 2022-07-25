@@ -22,7 +22,6 @@ function tournOffDisableMode() {
   for (const child of mapFilterElement.children) {
     child.removeAttribute('disabled');
   }
-  // });
 }
 
 export{turnOnDisableMode, tournOffDisableMode};
