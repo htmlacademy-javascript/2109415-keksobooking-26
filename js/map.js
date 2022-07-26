@@ -1,13 +1,15 @@
 import { tournOffDisableMode } from './mapmode.js';
 import {createCardElement} from './card.js';
 import { filterOutOffers } from './filters.js';
-const START_COORDINATE = {lat: 35.6895, lng: 139.692,};
+const MAIN_ICON_SIZE = [52, 52];
+const OTHER_ICONS_SIZE= [40, 40];
+const START_COORDINATE = {lat: 35.6895, lng: 139.6920,};
 const map = L.map('map-canvas').on('load', tournOffDisableMode);
 const markerGroup = L.layerGroup().addTo(map);
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: MAIN_ICON_SIZE,
+  iconAnchor: [MAIN_ICON_SIZE[0]/2, MAIN_ICON_SIZE[1]],
 });
 
 const mainPinMarker = L.marker(
@@ -20,8 +22,8 @@ const mainPinMarker = L.marker(
 
 const adPinIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: OTHER_ICONS_SIZE,
+  iconAnchor: [OTHER_ICONS_SIZE[0]/2, OTHER_ICONS_SIZE[1]],
 });
 
 function initMap (coordinate) {
@@ -58,9 +60,11 @@ function setOnMap (cb) {
 }
 
 function setOnMainPinMove () {
+  const addressField = document.querySelector('.ad-form').querySelector('#address');
+  addressField.value = `${START_COORDINATE.lat},${START_COORDINATE.lng}`;
   mainPinMarker.on('drag', (evt) => {
     const markerCoordinates = evt.target.getLatLng();
-    document.querySelector('.ad-form').querySelector('#address').value = `${markerCoordinates.lat.toFixed(5)},${markerCoordinates.lng.toFixed(5)}`;
+    addressField.value = `${markerCoordinates.lat.toFixed(5)},${markerCoordinates.lng.toFixed(5)}`;
   });
 }
 
