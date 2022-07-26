@@ -7,6 +7,8 @@ const MIN_PRICE = {
   'house': '5000',
   'palace': '10000',
 };
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
 
 const formElement = document.querySelector('.ad-form');
 const titleField = formElement.querySelector('#title');
@@ -29,7 +31,7 @@ const pristine = new Pristine(
 setOnMainPinMove(document.querySelector('.ad-form').querySelector('#address').value);
 
 function validateTitle(value) {
-  return value.length >= 30 && value.length <= 100;
+  return value.length >= MIN_TITLE_LENGTH && value.length <= MAX_TITLE_LENGTH;
 }
 
 pristine.addValidator(titleField, validateTitle);
